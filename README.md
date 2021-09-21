@@ -1,5 +1,7 @@
 # corset
 Cистема автоматизации прочностных расчётов стержневых систем, испытывающих растяжение-сжатие
+OpenJDK v16
+default port: 8090
 
 # To launch on mac os:
 1. Install postgresql: `brew install postgresql`
