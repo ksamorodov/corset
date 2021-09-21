@@ -2,7 +2,7 @@
 Cистема автоматизации прочностных расчётов стержневых систем, испытывающих растяжение-сжатие
 
 # To launch on mac os:
-1. Install postgresql: brew install postgresql
+1. Install postgresql: `brew install postgresql`
 2. Create user and database: 
   `psql postgres`
   `create database mydb;`
