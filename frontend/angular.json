@@ -1,0 +1,42 @@
+{
+  "cli": {
+    "analytics": "47cf5885-b5d5-40b1-8d87-7f724413e322"
+  },
+  "version": 1,
+  "projects": {
+    "helloapp": {
+      "projectType": "application",
+      "root": "",
+      "sourceRoot": "src",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/helloapp",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.json",
+            "aot": true
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "helloapp:build"
+          }
+        }
+      }
+    }},
+  "defaultProject": "helloapp"
+}
