@@ -1,11 +1,21 @@
 import { Component } from '@angular/core';
+import {Router} from "@angular/router";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
     selector: 'my-app',
-    template: `<label>Введите имя:</label>
-                 <input [(ngModel)]="name" placeholder="name">
-                 <h1>Добро пожаловать {{name}}!</h1>`
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-    name= '';
+    name= "";
+    constructor(private http: HttpClient){ }
+
+    onSubmit(event) {
+        this.name = event.target.name.value;
+    }
+
+    onClick() {
+        //this.http.post('http://localhost:8082/postuse', name);
+    }
 }

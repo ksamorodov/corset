@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Hello Angular</title>
+</head>
+<body>
+<form (submit)="onSubmit($event)" name="test" method="post" action="input1.php">
+    <p><b>Введите длину, сечение, нагрузки</b><br>
+        <input type="text" name="name"size="40">
+    </p>
+</form>
+<!--button (click)="onClick()">send</button-->
+
+<div>
+    <p>
+        name: {{name}};
+    </p>
+</div>
+</body>
+</html>
