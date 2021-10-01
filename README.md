@@ -13,3 +13,4 @@ default port: 8090
   `create user myuser with encrypted password 'mypass';`
   `grant all privileges on database mydb to myuser;`
 3. Migration: run maven plugin with dev profile liquibase:update
+
