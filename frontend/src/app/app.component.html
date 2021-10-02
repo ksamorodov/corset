@@ -7,23 +7,38 @@
     <title>Hello Angular</title>
 </head>
 <body>
-<form action="" class="railway">
-    <div class="stripes-block">
-        <div class="line"></div>
-    </div>
-    <h3>titile</h3>
-    <div class="form-group">
-        <input type="text" id="name" required><label for="name">1</label>
-        <input type="text" id="pass" required><label for="pass">2</label>
-        <input type="email" id="email" required><label for="email">3</label>
-        <input type="text" id="phone" required><label for="phone">4</label>
-    </div>
-    <div class="submit-block">
-        <div class="submit-button">
-            <i class="fa fa-train" aria-hidden="true"></i><br>
-            <input type="submit" value="Отправить">
+<div class="container px-5 my-5">
+    <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+        <div class="mb-3">
+            <label class="form-label" for="количествоУзлов">Количество узлов</label>
+            <input class="form-control" id="количествоУзлов" type="text" placeholder="Количество узлов" data-sb-validations="required" />
+            <div class="invalid-feedback" data-sb-feedback="количествоУзлов:required">Количество узлов is required.</div>
         </div>
-    </div>
-</form>
+        <div class="mb-3">
+            <label class="form-label" for="количествоСтержней">Количество стержней</label>
+            <input class="form-control" id="количествоСтержней" type="text" placeholder="Количество стержней" data-sb-validations="required" />
+            <div class="invalid-feedback" data-sb-feedback="количествоСтержней:required">Количество стержней is required.</div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="типСтержня">Тип стержня</label>
+            <input class="form-control" id="типСтержня" type="text" placeholder="Тип стержня" data-sb-validations="required" />
+            <div class="invalid-feedback" data-sb-feedback="типСтержня:required">Тип стержня is required.</div>
+        </div>
+        <div class="d-none" id="submitSuccessMessage">
+            <div class="text-center mb-3">
+                <div class="fw-bolder">Form submission successful!</div>
+                <p>To activate this form, sign up at</p>
+                <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+            </div>
+        </div>
+        <div class="d-none" id="submitErrorMessage">
+            <div class="text-center text-danger mb-3">Error sending message!</div>
+        </div>
+        <div class="d-grid">
+            <button class="btn btn-primary btn-lg disabled" id="submitButton" type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 </html>
