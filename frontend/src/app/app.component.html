@@ -1,21 +1,29 @@
 <!DOCTYPE html>
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 <html>
 <head>
     <meta charset="utf-8" />
     <title>Hello Angular</title>
 </head>
 <body>
-<form (submit)="onSubmit($event)" name="test" method="post" action="input1.php">
-    <p><b>Введите длину, сечение, нагрузки</b><br>
-        <input type="text" name="name"size="40">
-    </p>
+<form action="" class="railway">
+    <div class="stripes-block">
+        <div class="line"></div>
+    </div>
+    <h3>titile</h3>
+    <div class="form-group">
+        <input type="text" id="name" required><label for="name">1</label>
+        <input type="text" id="pass" required><label for="pass">2</label>
+        <input type="email" id="email" required><label for="email">3</label>
+        <input type="text" id="phone" required><label for="phone">4</label>
+    </div>
+    <div class="submit-block">
+        <div class="submit-button">
+            <i class="fa fa-train" aria-hidden="true"></i><br>
+            <input type="submit" value="Отправить">
+        </div>
+    </div>
 </form>
-<!--button (click)="onClick()">send</button-->
-
-<div>
-    <p>
-        name: {{name}};
-    </p>
-</div>
 </body>
 </html>
