@@ -12,7 +12,8 @@ default port: 8090
   `create database mydb;`
   `create user myuser with encrypted password 'mypass';`
   `grant all privileges on database mydb to myuser;`
-3. Migration: run maven plugin with dev profile liquibase:update
-4. `cd frontend`
-5. `npm install`
-6. `ng serve`
+3. Migration: run maven plugin with dev profile liquibase:update 
+4. Run in terminal: `npm install -g @angular/cli`
+5. Then: `npm install`
+6. And: `ng serve`
+7. `Navigate to http://localhost:4200/`
