@@ -1,0 +1,138 @@
+<div class="main-content">
+
+
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h4 class="title">Добавление нового стержня</h4>
+                                </div>
+
+                                <div class="content">
+                                    <form ng-controller="add">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Длина стержня</label>
+                                                    <input type="number" min="0" class="form-control" placeholder="Введите число" name="size" [ngModel]="kernel.size" #size="ngModel">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Площадь поперечного сечения</label>
+                                                    <input type="number" min="0" class="form-control" placeholder="Введите число" name="crossSectionalArea" [ngModel]="kernel.crossSectionalArea" #crossSectionalArea="ngModel">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Модуль упругости</label>
+                                                    <input type="number" min="0" class="form-control" placeholder="Введите число" name="elasticModulus" [ngModel]="kernel.elasticModulus" #elasticModulus="ngModel">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Допускаемое напряжение</label>
+                                                    <input type="number" min="0" class="form-control" placeholder="Введите число" name="allowableStress" [ngModel]="kernel.allowableStress" #allowableStress="ngModel">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label> Сосредоточенная нагрузка</label>
+                                                    <input type="number" class="form-control" placeholder="(Опционально) введите сосредоточенную нагрузку" name="concentratedLoad" [ngModel]="kernel.concentratedLoad" #concentratedLoad="ngModel">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label> Погонное напряжение</label>
+                                                    <input type="number" class="form-control" placeholder="(Опционально) введите погонное напряжение" name="linearVoltage" [ngModel]="kernel.linearVoltage" #linearVoltage="ngModel">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <div class="checkbox">
+                                                    <input id="left" type="checkbox" (click)="setLeftSupport()">
+                                                    <label for="left">
+                                                        опора слева
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="checkbox">
+                                                    <input id="right" type="checkbox" (click)="setRightSupport()">
+                                                    <label for="right">
+                                                        опора справа
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="checkbox">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button type="submit" class="btn btn-info btn-fill pull-right" (click)="addKernel(size, crossSectionalArea, elasticModulus, allowableStress, concentratedLoad, linearVoltage)">Сохранить</button>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h4 class="title">Список стержней</h4>
+                            <p class="category">Для просмотра визуализации перейдите на страницу Dashboard</p>
+                        </div>
+                        <div class="content table-responsive table-full-width">
+                            <table class="table table-hover table-striped" *ngIf="tableData1.dataRows.length != 0">
+                                <thead>
+                                <tr>
+                                    <th *ngFor="let cell of tableData1.headerRow">{{ cell }}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr *ngFor="let row of tableData1.dataRows; let i = index">
+                                    <td>{{i + 1}}</td>
+                                    <td>{{row.size}}</td>
+                                    <td>{{row.crossSectionalArea}}</td>
+                                    <td>{{row.elasticModulus}}</td>
+                                    <td>{{row.allowableStress}}</td>
+                                    <td>{{row.concentratedLoad}}</td>
+                                    <td>{{row.linearVoltage}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="places-buttons">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <button class="btn btn-default btn-block" (click)="showNotification('top','left')">Сохранить в базу данных</button>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-default btn-block" (click)="showNotification('top','center')">Загрузить из базы данных</button>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-default btn-block" (click)="showNotification('bottom','left')">Вычислить</button>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-default btn-block" (click)="showNotification('bottom','center')">Визуализировать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,20 +1,26 @@
-import { Component } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { Component, OnInit } from '@angular/core';
+import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
 
 @Component({
-    selector: 'my-app',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-    name= "";
-    constructor(private http: HttpClient){ }
+export class AppComponent implements OnInit {
 
-    onSubmit(event) {
-        this.name = event.target.name.value;
+     constructor(public location: Location) {}
+
+    ngOnInit(){
     }
 
-    onClick() {
-        //this.http.post('http://localhost:8082/postuse', name);
+    isMap(path){
+      var titlee = this.location.prepareExternalUrl(this.location.path());
+      titlee = titlee.slice( 1 );
+      if(path == titlee){
+        return false;
+      }
+      else {
+        return true;
+      }
     }
 }
