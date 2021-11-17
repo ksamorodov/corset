@@ -19,15 +19,22 @@ public class ConstructionsResource {
 
     @Transactional
     public Optional<Integer> save(ConstructionsDTO constructionsDTO) {
-        Optional<Record1<Integer>> id = dsl.insertInto(Constructions.CONSTRUCTIONS).
+        Optional<Integer> id = dsl.insertInto(Constructions.CONSTRUCTIONS).
                 set(Constructions.CONSTRUCTIONS.LEFT_SUPPORT, constructionsDTO.leftSupport())
-                .set(Constructions.CONSTRUCTIONS.RIGHT_SUPPORT, constructionsDTO.rightSupport()).returningResult(Constructions.CONSTRUCTIONS.ID).fetchOptional();
+                .set(Constructions.CONSTRUCTIONS.RIGHT_SUPPORT, constructionsDTO.rightSupport()).returning(Constructions.CONSTRUCTIONS.ID).fetchOptional().map(e -> e.getId());
         if (id.isPresent()) {
-            Collection<KernelsRecord> kernelsList = constructionsDTO.kernelsList().stream().map(kernel ->
-                    kernelRecordFrom(kernel, id.get().value1())
-            ).toList();
-            dsl.batchInsert(kernelsList);
-            return Optional.of(id.get().value1());
+            constructionsDTO.kernels().forEach(i ->{
+                dsl.insertInto(Kernels.KERNELS)
+                        .set(Kernels.KERNELS.KERNEL_SIZE, i.kernelSize())
+                        .set(Kernels.KERNELS.CONSTRUCTIONS_ID, id.get())
+                        .set(Kernels.KERNELS.ALLOWABLE_STRESS, i.allowableStress())
+                        .set(Kernels.KERNELS.CONCENTRATED_LOAD, i.concentratedLoad())
+                        .set(Kernels.KERNELS.CROSS_SECTIONAL_AREA, i.crossSectionalArea())
+                        .set(Kernels.KERNELS.ELASTIC_MODULUS, i.elasticModulus())
+                        .set(Kernels.KERNELS.LINEAR_VOLTAGE, i.linearVoltage()).execute();
+            });
+
+            return Optional.of(id.get());
         }
         return Optional.empty();
     }

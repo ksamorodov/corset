@@ -18,7 +18,7 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label>Длина стержня</label>
-                                                    <input type="number" min="0" class="form-control" placeholder="Введите число" name="size" [ngModel]="kernel.size" #size="ngModel">
+                                                    <input type="number" min="0" class="form-control" placeholder="Введите число" name="size" [ngModel]="kernel.kernelSize" #size="ngModel">
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
@@ -94,15 +94,15 @@
                             <p class="category">Для просмотра визуализации перейдите на страницу Dashboard</p>
                         </div>
                         <div class="content table-responsive table-full-width">
-                            <table class="table table-hover table-striped" *ngIf="tableData1.dataRows.length != 0">
+                            <table class="table table-hover table-striped" *ngIf="tableData.kernels.length != 0">
                                 <thead>
                                 <tr>
-                                    <th *ngFor="let cell of tableData1.headerRow">{{ cell }}</th>
+                                    <th *ngFor="let cell of tableData.headerRow">{{ cell }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
 
-                                <tr *ngFor="let row of tableData1.dataRows; let i = index">
+                                <tr *ngFor="let row of tableData.kernels; let i = index">
                                     <td>{{i + 1}}</td>
                                     <td>{{row.size}}</td>
                                     <td>{{row.crossSectionalArea}}</td>
@@ -119,7 +119,7 @@
                 <div class="places-buttons">
                     <div class="row">
                         <div class="col-md-3">
-                            <button class="btn btn-default btn-block" (click)="showNotification('top','left')">Сохранить в базу данных</button>
+                            <button class="btn btn-default btn-block" (click)="insertConstruction()">Сохранить в базу данных</button>
                         </div>
                         <div class="col-md-3">
                             <button class="btn btn-default btn-block" (click)="showNotification('top','center')">Загрузить из базы данных</button>

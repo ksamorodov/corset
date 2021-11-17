@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {NgModel} from "@angular/forms";
+import { HttpClient, HttpHeaders, HttpClientModule } from '@angular/common/http';
 import {FormsModule} from "@angular/forms";
 declare var $:any;
 
 export class Kernel {
   constructor(
-      public size: number,
+      public kernelSize: number,
       public crossSectionalArea: number,
       public elasticModulus: number,
       public allowableStress: number,
@@ -16,7 +17,7 @@ export class Kernel {
 
 declare interface TableData {
   headerRow: string[];
-  dataRows: Kernel[];
+  kernels: Kernel[];
   leftSupport: boolean;
   rightSupport: boolean;
 }
@@ -26,15 +27,14 @@ declare interface TableData {
   styleUrls: ['./maps.component.css']
 })
 export class MapsComponent implements OnInit {
-  public tableData1: TableData;
-  public tableData2: TableData;
-  public kernel: Kernel = new Kernel(0, 0, 0, 0, null, null,)
-  constructor() { }
+  public tableData: TableData;
+  public kernel: Kernel = new Kernel(0, 0, 0, 0, null, null);
+  constructor( private http: HttpClient) { }
 
   ngOnInit() {
-    this.tableData1 = {
+    this.tableData = {
       headerRow: [ '№', 'Длина стержня', 'Площадь поперечного сечения', 'Модель упругости', 'Допусткаемое напряжение', 'Сосредоточенная нагрузка', 'Погонное напряжение'],
-      dataRows: [],
+      kernels: [],
       leftSupport: false,
       rightSupport: false
     };
@@ -42,7 +42,7 @@ export class MapsComponent implements OnInit {
 
   addKernel(size: NgModel, crossSectionalArea: NgModel, elasticModulus: NgModel, allowableStress: NgModel, concentratedLoad: NgModel, linearVoltage: NgModel) {
     if (size.viewModel != null && crossSectionalArea.viewModel != null && elasticModulus.viewModel != null && allowableStress.viewModel != null) {
-      this.tableData1.dataRows.push(new Kernel(size.viewModel, crossSectionalArea.viewModel,
+      this.tableData.kernels.push(new Kernel(size.viewModel, crossSectionalArea.viewModel,
           elasticModulus.viewModel,
           allowableStress.viewModel,
           concentratedLoad.viewModel != null? concentratedLoad.viewModel: null,
@@ -71,11 +71,16 @@ export class MapsComponent implements OnInit {
   }
 
   setLeftSupport() {
-    this.tableData1.leftSupport = !this.tableData1.leftSupport;
+    this.tableData.leftSupport = !this.tableData.leftSupport;
   }
 
   setRightSupport() {
-    this.tableData1.rightSupport = !this.tableData1.rightSupport;
+    this.tableData.rightSupport = !this.tableData.rightSupport;
+  }
 
+  insertConstruction() {
+    if (this.tableData.kernels.length != null) {
+      this.http.post<any>("/constructions/", this.tableData).pipe().subscribe();
+    }
   }
 }

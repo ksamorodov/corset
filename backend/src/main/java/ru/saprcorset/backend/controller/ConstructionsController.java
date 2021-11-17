@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/kernels")
+@RequestMapping("/constructions")
 public class ConstructionsController {
 
     @Autowired
     private ConstuctionsService constuctionsService;
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<?> save(@RequestBody ConstructionsDTO constructionsDTO) {
         Optional<Integer> id = constuctionsService.save(constructionsDTO);
         if (id.isPresent()) {
