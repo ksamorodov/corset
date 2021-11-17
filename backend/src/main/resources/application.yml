@@ -4,9 +4,9 @@ spring:
   datasource:
     hikari:
       maximum-pool-size: 10
-    url: jdbc:postgresql://localhost:5432/mydb
-    password: mypass
-    username: myuser
+    url: jdbc:postgresql://localhost:5432/selectel
+    password: selectel
+    username: selectel
   liquibase:
     change-log: "classpath:db/master.xml"
     enabled: false
