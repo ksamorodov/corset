@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.saprcorset.backend.adapters.db.jooq.tables.records.KernelsRecord;
 import ru.saprcorset.backend.entity.KernelEntity;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
@@ -14,14 +16,23 @@ public class KernelResourse {
     private final DSLContext dsl;
 
     @Transactional
-    public int save(KernelEntity kernelEntity) {
-        //dsl.batchInsert();
-        return 0;
+    public void save(KernelEntity kernelEntity) {
+        dsl.batchInsert(kernelRecordFrom(kernelEntity)).execute();
+    }
+
+    private static KernelsRecord kernelRecordFrom(KernelEntity i) {
+        return new KernelsRecord(null,
+                BigDecimal.valueOf(i.getKernelSize()),
+                BigDecimal.valueOf(i.getCrossSectionalArea()),
+                BigDecimal.valueOf(i.getElasticModulus()),
+                BigDecimal.valueOf(i.getAllowableStress()),
+                BigDecimal.valueOf(i.getConcentratedLoad()),
+                BigDecimal.valueOf(i.getLinearVoltage())
+                );
     }
 
     @Transactional
     public KernelEntity getById(Long id) {
-        //dsl.batchInsert();
         return null;
     }
 
