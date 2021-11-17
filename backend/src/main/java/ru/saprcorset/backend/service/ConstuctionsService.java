@@ -18,29 +18,24 @@ public class ConstuctionsService {
     @Autowired
     private ConstructionsResource constructionsResource;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
-    @Autowired
-    private DataSource dataSource;
-
     @PostConstruct
     public void init() {
 
     }
 
-    @Transactional
     public Optional<Integer> save(ConstructionsDTO constructionsDTO) {
         return constructionsResource.save(constructionsDTO);
     }
 
-    @Transactional
     public Optional<ConstructionsDTO> getById(Integer id) {
         return constructionsResource.getById(id);
     }
 
-    @Transactional
     public List<ConstructionsDTO> getKernelsList() {
         return constructionsResource.getConstructionsList();
+    }
+
+    public void deleteByName(String name) {
+        constructionsResource.deleteByName(name);
     }
 }

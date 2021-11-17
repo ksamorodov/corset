@@ -9,7 +9,7 @@ import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row3;
+import org.jooq.Row4;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -59,6 +59,11 @@ public class Constructions extends TableImpl<ConstructionsRecord> {
      * The column <code>public.constructions.right_support</code>.
      */
     public final TableField<ConstructionsRecord, Boolean> RIGHT_SUPPORT = createField(DSL.name("right_support"), SQLDataType.BOOLEAN.nullable(false), this, "");
+
+    /**
+     * The column <code>public.constructions.name</code>.
+     */
+    public final TableField<ConstructionsRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR(100).nullable(false), this, "");
 
     private Constructions(Name alias, Table<ConstructionsRecord> aliased) {
         this(alias, aliased, null);
@@ -135,11 +140,11 @@ public class Constructions extends TableImpl<ConstructionsRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row3 type methods
+    // Row4 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row3<Integer, Boolean, Boolean> fieldsRow() {
-        return (Row3) super.fieldsRow();
+    public Row4<Integer, Boolean, Boolean, String> fieldsRow() {
+        return (Row4) super.fieldsRow();
     }
 }

@@ -55,28 +55,11 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-2">
-                                                <div class="checkbox">
-                                                    <input id="left" type="checkbox" (click)="setLeftSupport()">
-                                                    <label for="left">
-                                                        опора слева
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="checkbox">
-                                                    <input id="right" type="checkbox" (click)="setRightSupport()">
-                                                    <label for="right">
-                                                        опора справа
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="checkbox">
-
-                                                </div>
+                                            <div class="col-md-6 pull-left">
+                                                    <button class="btn btn-info btn-fill pull-left" (click)="resetKernel(size, crossSectionalArea, elasticModulus, allowableStress, concentratedLoad, linearVoltage)">Очистить список</button>
                                             </div>
                                             <div class="col-md-6">
+
                                                 <button type="submit" class="btn btn-info btn-fill pull-right" (click)="addKernel(size, crossSectionalArea, elasticModulus, allowableStress, concentratedLoad, linearVoltage)">Сохранить</button>
                                                 <div class="clearfix"></div>
                                             </div>
@@ -90,8 +73,38 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="header">
-                            <h4 class="title">Список стержней</h4>
-                            <p class="category">Для просмотра визуализации перейдите на страницу Dashboard</p>
+                            <div class="row">
+                                <div class="container-fluid">
+                                    <div class="form-group col-md-8">
+                                        <input type="text" class="form-control" placeholder="Введите название конструкции" name="name" [ngModel]="tableData.name" #name="ngModel">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="checkbox">
+                                            <input id="left" type="checkbox" (click)="setLeftSupport()">
+                                            <label for="left">
+                                                опора слева
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="checkbox">
+                                            <input id="right" type="checkbox" (click)="setRightSupport()">
+                                            <label for="right">
+                                                опора справа
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="checkbox">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="header">
+                                <h4 class="title">Стержни конструкции</h4>
+                            </div>
                         </div>
                         <div class="content table-responsive table-full-width">
                             <table class="table table-hover table-striped" *ngIf="tableData.kernels.length != 0">
@@ -104,7 +117,7 @@
 
                                 <tr *ngFor="let row of tableData.kernels; let i = index">
                                     <td>{{i + 1}}</td>
-                                    <td>{{row.size}}</td>
+                                    <td>{{row.kernelSize}}</td>
                                     <td>{{row.crossSectionalArea}}</td>
                                     <td>{{row.elasticModulus}}</td>
                                     <td>{{row.allowableStress}}</td>
@@ -119,16 +132,46 @@
                 <div class="places-buttons">
                     <div class="row">
                         <div class="col-md-3">
-                            <button class="btn btn-default btn-block" (click)="insertConstruction()">Сохранить в базу данных</button>
+                            <button class="btn btn-default btn-block" (click)="insertConstruction(name)">Сохранить в базу данных</button>
                         </div>
+<!--                        <div class="col-md-3">-->
+<!--                            <button class="btn btn-default btn-block" (click)="getLastConstruction()">Загрузить из базы данных</button>-->
+<!--                        </div>-->
                         <div class="col-md-3">
-                            <button class="btn btn-default btn-block" (click)="showNotification('top','center')">Загрузить из базы данных</button>
-                        </div>
-                        <div class="col-md-3">
-                            <button class="btn btn-default btn-block" (click)="showNotification('bottom','left')">Вычислить</button>
+                            <button class="btn btn-default btn-block" (click)="reset(name)">Очистить список</button>
                         </div>
                         <div class="col-md-3">
                             <button class="btn btn-default btn-block" (click)="showNotification('bottom','center')">Визуализировать</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h4 class="title">История</h4>
+                        </div>
+                        <div class="content table-responsive table-full-width">
+                            <table class="table table-hover table-striped" *ngIf="history.length != 0">
+                                <thead>
+                                <tr>
+                                    <th>№</th>
+                                    <th>Название</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr *ngFor="let row of history; let i = index">
+                                    <td>{{i + 1}}</td>
+                                    <td>{{row}}</td>
+                                    <th class="col-md-2">
+                                        <button class="btn btn-default btn-block" (click)="viewHistoryItem(i, name)">Просмотр</button>
+                                    </th>
+                                    <th class="col-md-2">
+                                        <button class="btn btn-default btn-block" (click)="deleteItemByName(row)">Удаление</button>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

@@ -3,7 +3,7 @@ package ru.saprcorset.backend.dto;
 import java.math.BigDecimal;
 import java.util.List;
 
-public record ConstructionsDTO (Integer id, boolean leftSupport, boolean rightSupport, List<KernelDTO> kernels) {
+public record ConstructionsDTO (Integer id, String name, boolean leftSupport, boolean rightSupport, List<KernelDTO> kernels) {
     public record KernelDTO (
             Integer id,
         BigDecimal kernelSize,

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NgModel} from "@angular/forms";
-import { HttpClient, HttpHeaders, HttpClientModule } from '@angular/common/http';
-import {FormsModule} from "@angular/forms";
+import {HttpClient} from '@angular/common/http';
+
 declare var $:any;
 
 export class Kernel {
@@ -16,6 +16,7 @@ export class Kernel {
 }
 
 declare interface TableData {
+  name: string;
   headerRow: string[];
   kernels: Kernel[];
   leftSupport: boolean;
@@ -28,11 +29,14 @@ declare interface TableData {
 })
 export class MapsComponent implements OnInit {
   public tableData: TableData;
+  public history: Array<string> = [];
   public kernel: Kernel = new Kernel(0, 0, 0, 0, null, null);
   constructor( private http: HttpClient) { }
 
   ngOnInit() {
+    this.updateHistory();
     this.tableData = {
+      name: "",
       headerRow: [ '№', 'Длина стержня', 'Площадь поперечного сечения', 'Модель упругости', 'Допусткаемое напряжение', 'Сосредоточенная нагрузка', 'Погонное напряжение'],
       kernels: [],
       leftSupport: false,
@@ -50,7 +54,7 @@ export class MapsComponent implements OnInit {
       )
       this.showNotification('success', "Cтержень успешно добавлен");
     } else {
-      this.showNotification('danger', "Не заполнены <b>обязательные поля</b>.");
+      this.showNotification('danger', "Не верно заполнены <b>обязательные поля</b>.");
     }
   }
 
@@ -78,9 +82,72 @@ export class MapsComponent implements OnInit {
     this.tableData.rightSupport = !this.tableData.rightSupport;
   }
 
-  insertConstruction() {
-    if (this.tableData.kernels.length != null) {
-      this.http.post<any>("/constructions/", this.tableData).pipe().subscribe();
+  insertConstruction(name: NgModel) {
+    this.tableData.name = name.viewModel;
+    if (this.tableData.name != "" && this.tableData.kernels.length != null) {
+      this.http.post<any>("/constructions/", this.tableData).pipe().subscribe((data) => {
+        this.updateHistory();
+      });
     }
+    if (this.tableData.name == "") {
+      this.showNotification('danger', "Введите название конструкции");
+    }
+    if (this.tableData.kernels.length == 0) {
+      this.showNotification('danger', "В конструкции отсутствуют стержни")
+    }
+  }
+
+  getLastConstruction() {
+    this.http.get<any>("/constructions/").pipe().subscribe((data) => {
+      console.log(data[data.length - 1]);
+      this.tableData.kernels = data[data.length - 1].kernels;
+      this.tableData.leftSupport = data[data.length - 1].leftSupport;
+      this.tableData.rightSupport = data[data.length - 1].rightSupport;
+    });
+    this.updateHistory();
+  }
+
+  reset(name: NgModel) {
+    this.tableData.kernels = [];
+    this.tableData.name = "";
+    this.tableData.leftSupport = false;
+    this.tableData.rightSupport = false;
+    name.reset();
+    this.updateHistory();
+  }
+
+  resetKernel(size: NgModel, crossSectionalArea: NgModel, elasticModulus: NgModel, allowableStress: NgModel, concentratedLoad: NgModel, linearVoltage: NgModel) {
+    size.reset();
+    crossSectionalArea.reset();
+    elasticModulus.reset();
+    allowableStress.reset();
+    concentratedLoad.reset();
+    linearVoltage.reset();
+
+  }
+
+  viewHistoryItem(index, name: NgModel) {
+    this.http.get<any>("/constructions/").pipe().subscribe((data) => {
+          this.tableData.name = data[index].name;
+          this.tableData.kernels = data[index].kernels;
+        }
+    );
+  }
+
+  deleteItemByName(name) {
+    this.http.put<any>("/constructions/", name).pipe().subscribe((data) => {
+      this.updateHistory();
+    });
+  }
+
+  updateHistory() {
+    this.http.get<any>("/constructions/").pipe().subscribe((data) => {
+          this.history = [];
+          data.forEach(e => {
+            this.history.push(e.name);
+          })
+        }
+    );
+
   }
 }

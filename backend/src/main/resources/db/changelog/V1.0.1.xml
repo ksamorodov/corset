@@ -13,4 +13,7 @@
     <changeSet id="2021-11-17 16:11:00" author="ksamorodov">
         <sqlFile path="/sql/03__delete_kernel_id.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet id="2021-11-18 16:11:00" author="ksamorodov">
+        <sqlFile path="/sql/04__construction_name.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>

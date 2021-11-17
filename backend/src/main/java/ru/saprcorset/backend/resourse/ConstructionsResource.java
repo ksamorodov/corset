@@ -21,6 +21,7 @@ public class ConstructionsResource {
     public Optional<Integer> save(ConstructionsDTO constructionsDTO) {
         Optional<Integer> id = dsl.insertInto(Constructions.CONSTRUCTIONS).
                 set(Constructions.CONSTRUCTIONS.LEFT_SUPPORT, constructionsDTO.leftSupport())
+                .set(Constructions.CONSTRUCTIONS.NAME, constructionsDTO.name())
                 .set(Constructions.CONSTRUCTIONS.RIGHT_SUPPORT, constructionsDTO.rightSupport()).returning(Constructions.CONSTRUCTIONS.ID).fetchOptional().map(e -> e.getId());
         if (id.isPresent()) {
             constructionsDTO.kernels().forEach(i ->{
@@ -54,9 +55,10 @@ public class ConstructionsResource {
     public Optional<ConstructionsDTO> getById(Integer id) {
         return dsl.select(
                 Constructions.CONSTRUCTIONS.ID,
+                Constructions.CONSTRUCTIONS.NAME,
                 Constructions.CONSTRUCTIONS.LEFT_SUPPORT,
                 Constructions.CONSTRUCTIONS.RIGHT_SUPPORT
-                ).from(Constructions.CONSTRUCTIONS).where(Constructions.CONSTRUCTIONS.ID.eq(id)).stream().map(result -> new ConstructionsDTO(result.value1(), result.value2(), result.value3(), getKernelsListByConstructionId(result.value1()))).findFirst();
+                ).from(Constructions.CONSTRUCTIONS).where(Constructions.CONSTRUCTIONS.ID.eq(id)).stream().map(result -> new ConstructionsDTO(result.value1(), result.value2(), result.value3(), result.value4(), getKernelsListByConstructionId(result.value1()))).findFirst();
     }
 
     @Transactional
@@ -70,7 +72,7 @@ public class ConstructionsResource {
                 Kernels.KERNELS.CONCENTRATED_LOAD,
                 Kernels.KERNELS.LINEAR_VOLTAGE,
                 Kernels.KERNELS.CONSTRUCTIONS_ID
-        ).from(Kernels.KERNELS).where(Kernels.KERNELS.ID.eq(id)).stream()
+        ).from(Kernels.KERNELS).where(Kernels.KERNELS.CONSTRUCTIONS_ID.eq(id)).stream()
                 .map(result -> new ConstructionsDTO.KernelDTO(result.value1(),
                         result.value2(), result.value3(), result.value4(),
                         result.value5(), result.value6(), result.value7(),
@@ -82,11 +84,28 @@ public class ConstructionsResource {
     public List<ConstructionsDTO> getConstructionsList() {
         return dsl.select(
                 Constructions.CONSTRUCTIONS.ID,
+                Constructions.CONSTRUCTIONS.NAME,
                 Constructions.CONSTRUCTIONS.LEFT_SUPPORT,
                 Constructions.CONSTRUCTIONS.RIGHT_SUPPORT
         ).from(Constructions.CONSTRUCTIONS).stream()
                 .map(result -> new ConstructionsDTO(result.value1(), result.value2(),
-                        result.value3(), getKernelsListByConstructionId(result.value1()))).toList();
+                        result.value3(), result.value4(), getKernelsListByConstructionId(result.value1()))).toList();
 
+    }
+
+    @Transactional
+    public void deleteByName(String name) {
+        Optional<ConstructionsDTO> constructionsDTO = dsl.select(
+                        Constructions.CONSTRUCTIONS.ID,
+                        Constructions.CONSTRUCTIONS.NAME,
+                        Constructions.CONSTRUCTIONS.LEFT_SUPPORT,
+                        Constructions.CONSTRUCTIONS.RIGHT_SUPPORT
+                ).from(Constructions.CONSTRUCTIONS).where(Constructions.CONSTRUCTIONS.NAME.eq(name)).stream().findFirst()
+                .map(result -> new ConstructionsDTO(result.value1(), result.value2(),
+                        result.value3(), result.value4(), getKernelsListByConstructionId(result.value1())));
+        if (constructionsDTO.isPresent()) {
+            dsl.deleteFrom(Kernels.KERNELS).where(Kernels.KERNELS.CONSTRUCTIONS_ID.eq(constructionsDTO.get().id())).execute();
+            dsl.deleteFrom(Constructions.CONSTRUCTIONS).where(Constructions.CONSTRUCTIONS.ID.eq(constructionsDTO.get().id())).execute();
+        }
     }
 }

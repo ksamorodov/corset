@@ -28,10 +28,17 @@ public class ConstructionsController {
         }
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public ResponseEntity<?> getConstructions() {
         return ResponseEntity.ok(constuctionsService.getKernelsList());
     }
+
+    @PutMapping
+    public ResponseEntity<?> deleteByName(@RequestBody String name) {
+        constuctionsService.deleteByName(name);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
 
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getById(@PathVariable Integer id) {
