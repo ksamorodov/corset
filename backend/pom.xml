@@ -142,9 +142,9 @@
                         </generate>
                         <target>
                             <!-- структура пакетов относительно основной директории -->
-                            <packageName>ru.xpendence.jooqexample.domain</packageName>
+                            <packageName>ru.saprcorset.backend.adapters.db.jooq</packageName>
                             <!-- основная директория. Лучше хранить в target. -->
-                            <directory>target/generated-sources/jooq</directory>
+                            <directory>src/main/java</directory>
                         </target>
                     </generator>
                 </configuration>

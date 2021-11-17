@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class KernelEntity {
     private Long id;
-    private String string;
-    private Integer digit;
+    private Integer kernelSize;
+    private Integer crossSectionalArea;
+    private Integer elasticModulus;
+    private Integer allowableStress;
+    private Integer concentratedLoad;
+    private Integer linearVoltage;
 }

@@ -25,7 +25,7 @@ public class KernelsController {
     }
 
     @GetMapping("/get/{id}")
-    public KernelDTO getById(@PathVariable Integer id) {
+    public KernelDTO getById(@PathVariable Long id) {
         return kernelsService.getById(id);
     }
 }

@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class KernelsService {
 
     @Autowired
-    private KernelResourse kernelMapper;
+    private KernelResourse kernelResourse;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -33,22 +33,22 @@ public class KernelsService {
     @Transactional
     public KernelDTO save(KernelDTO kernelDTO) {
         KernelEntity kernelEntity = modelMapper.map(kernelDTO, KernelEntity.class);
-        kernelMapper.save(kernelEntity);
+        kernelResourse.save(kernelEntity);
 
         return modelMapper.map(kernelEntity, KernelDTO.class);
     }
 
     @Transactional
-    public KernelDTO getById(Integer id) {
+    public KernelDTO getById(Long id) {
 
-        KernelEntity kernelEntity = kernelMapper.getById(id);
+        KernelEntity kernelEntity = kernelResourse.getById(id);
 
         return modelMapper.map(kernelEntity, KernelDTO.class);
     }
 
     @Transactional
     public List<KernelDTO> getKernelsList() {
-        return kernelMapper.getListAccounts().stream()
+        return kernelResourse.getListAccounts().stream()
                 .map(kernelEntity -> modelMapper.map(kernelEntity, KernelDTO.class))
                 .collect(Collectors.toList());
     }
