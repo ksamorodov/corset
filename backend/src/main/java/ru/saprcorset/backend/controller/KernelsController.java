@@ -1,6 +1,8 @@
 package ru.saprcorset.backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.saprcorset.backend.dto.KernelDTO;
 import ru.saprcorset.backend.service.KernelsService;
@@ -15,8 +17,9 @@ public class KernelsController {
     private KernelsService kernelsService;
 
     @PostMapping("/save")
-    public KernelDTO save(@RequestBody KernelDTO kernelDTO) {
-        return kernelsService.save(kernelDTO);
+    public ResponseEntity<?> save(@RequestBody KernelDTO kernelDTO) {
+        kernelsService.save(kernelDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/list")
