@@ -4,15 +4,12 @@
 package ru.saprcorset.backend.adapters.db.jooq.tables;
 
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row4;
+import org.jooq.Row3;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -52,11 +49,6 @@ public class Constructions extends TableImpl<ConstructionsRecord> {
      * The column <code>public.constructions.id</code>.
      */
     public final TableField<ConstructionsRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
-
-    /**
-     * The column <code>public.constructions.kernel_id</code>.
-     */
-    public final TableField<ConstructionsRecord, Integer> KERNEL_ID = createField(DSL.name("kernel_id"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>public.constructions.left_support</code>.
@@ -117,20 +109,6 @@ public class Constructions extends TableImpl<ConstructionsRecord> {
     }
 
     @Override
-    public List<ForeignKey<ConstructionsRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.CONSTRUCTIONS__CONSTRUCTIONS_KERNEL_ID_FKEY);
-    }
-
-    private transient Kernels _kernels;
-
-    public Kernels kernels() {
-        if (_kernels == null)
-            _kernels = new Kernels(this, Keys.CONSTRUCTIONS__CONSTRUCTIONS_KERNEL_ID_FKEY);
-
-        return _kernels;
-    }
-
-    @Override
     public Constructions as(String alias) {
         return new Constructions(DSL.name(alias), this);
     }
@@ -157,11 +135,11 @@ public class Constructions extends TableImpl<ConstructionsRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row4 type methods
+    // Row3 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Integer, Integer, Boolean, Boolean> fieldsRow() {
-        return (Row4) super.fieldsRow();
+    public Row3<Integer, Boolean, Boolean> fieldsRow() {
+        return (Row3) super.fieldsRow();
     }
 }

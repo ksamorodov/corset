@@ -4,18 +4,19 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.saprcorset.backend.dto.KernelDTO;
-import ru.saprcorset.backend.resourse.KernelResourse;
+import ru.saprcorset.backend.dto.ConstructionsDTO;
+import ru.saprcorset.backend.resourse.ConstructionsResource;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class KernelsService {
+public class ConstuctionsService {
 
     @Autowired
-    private KernelResourse kernelResourse;
+    private ConstructionsResource constructionsResource;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -29,20 +30,17 @@ public class KernelsService {
     }
 
     @Transactional
-    public void save(KernelDTO kernelDTO) {
-        kernelResourse.save(kernelDTO);
+    public Optional<Integer> save(ConstructionsDTO constructionsDTO) {
+        return constructionsResource.save(constructionsDTO);
     }
 
     @Transactional
-    public KernelDTO getById(Long id) {
-
-        KernelDTO kernelDTO = kernelResourse.getById(id);
-
-        return modelMapper.map(kernelDTO, KernelDTO.class);
+    public Optional<ConstructionsDTO> getById(Integer id) {
+        return constructionsResource.getById(id);
     }
 
     @Transactional
-    public List<KernelDTO> getKernelsList() {
-        return kernelResourse.getListAccounts();
+    public List<ConstructionsDTO> getKernelsList() {
+        return constructionsResource.getConstructionsList();
     }
 }

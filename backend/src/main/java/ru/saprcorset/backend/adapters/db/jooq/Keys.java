@@ -37,5 +37,5 @@ public class Keys {
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final ForeignKey<ConstructionsRecord, KernelsRecord> CONSTRUCTIONS__CONSTRUCTIONS_KERNEL_ID_FKEY = Internal.createForeignKey(Constructions.CONSTRUCTIONS, DSL.name("constructions_kernel_id_fkey"), new TableField[] { Constructions.CONSTRUCTIONS.KERNEL_ID }, Keys.KERNELS_PK, new TableField[] { Kernels.KERNELS.ID }, true);
+    public static final ForeignKey<KernelsRecord, ConstructionsRecord> KERNELS__KERNELS_CONSTRUCTIONS_ID_FKEY = Internal.createForeignKey(Kernels.KERNELS, DSL.name("kernels_constructions_id_fkey"), new TableField[] { Kernels.KERNELS.CONSTRUCTIONS_ID }, Keys.CONSTRUCTIONS_PK, new TableField[] { Constructions.CONSTRUCTIONS.ID }, true);
 }

@@ -5,13 +5,15 @@ package ru.saprcorset.backend.adapters.db.jooq.tables;
 
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row7;
+import org.jooq.Row8;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -58,29 +60,34 @@ public class Kernels extends TableImpl<KernelsRecord> {
     public final TableField<KernelsRecord, BigDecimal> KERNEL_SIZE = createField(DSL.name("kernel_size"), SQLDataType.NUMERIC, this, "");
 
     /**
-     * The column <code>public.kernels.crosssectionalarea</code>.
+     * The column <code>public.kernels.cross_sectional_area</code>.
      */
-    public final TableField<KernelsRecord, BigDecimal> CROSSSECTIONALAREA = createField(DSL.name("crosssectionalarea"), SQLDataType.NUMERIC, this, "");
+    public final TableField<KernelsRecord, BigDecimal> CROSS_SECTIONAL_AREA = createField(DSL.name("cross_sectional_area"), SQLDataType.NUMERIC, this, "");
 
     /**
-     * The column <code>public.kernels.elasticmodulus</code>.
+     * The column <code>public.kernels.elastic_modulus</code>.
      */
-    public final TableField<KernelsRecord, BigDecimal> ELASTICMODULUS = createField(DSL.name("elasticmodulus"), SQLDataType.NUMERIC, this, "");
+    public final TableField<KernelsRecord, BigDecimal> ELASTIC_MODULUS = createField(DSL.name("elastic_modulus"), SQLDataType.NUMERIC, this, "");
 
     /**
-     * The column <code>public.kernels.allowablestress</code>.
+     * The column <code>public.kernels.allowable_stress</code>.
      */
-    public final TableField<KernelsRecord, BigDecimal> ALLOWABLESTRESS = createField(DSL.name("allowablestress"), SQLDataType.NUMERIC, this, "");
+    public final TableField<KernelsRecord, BigDecimal> ALLOWABLE_STRESS = createField(DSL.name("allowable_stress"), SQLDataType.NUMERIC, this, "");
 
     /**
-     * The column <code>public.kernels.concentratedload</code>.
+     * The column <code>public.kernels.concentrated_load</code>.
      */
-    public final TableField<KernelsRecord, BigDecimal> CONCENTRATEDLOAD = createField(DSL.name("concentratedload"), SQLDataType.NUMERIC, this, "");
+    public final TableField<KernelsRecord, BigDecimal> CONCENTRATED_LOAD = createField(DSL.name("concentrated_load"), SQLDataType.NUMERIC, this, "");
 
     /**
-     * The column <code>public.kernels.linearvoltage</code>.
+     * The column <code>public.kernels.linear_voltage</code>.
      */
-    public final TableField<KernelsRecord, BigDecimal> LINEARVOLTAGE = createField(DSL.name("linearvoltage"), SQLDataType.NUMERIC, this, "");
+    public final TableField<KernelsRecord, BigDecimal> LINEAR_VOLTAGE = createField(DSL.name("linear_voltage"), SQLDataType.NUMERIC, this, "");
+
+    /**
+     * The column <code>public.kernels.constructions_id</code>.
+     */
+    public final TableField<KernelsRecord, Integer> CONSTRUCTIONS_ID = createField(DSL.name("constructions_id"), SQLDataType.INTEGER.nullable(false), this, "");
 
     private Kernels(Name alias, Table<KernelsRecord> aliased) {
         this(alias, aliased, null);
@@ -131,6 +138,20 @@ public class Kernels extends TableImpl<KernelsRecord> {
     }
 
     @Override
+    public List<ForeignKey<KernelsRecord, ?>> getReferences() {
+        return Arrays.asList(Keys.KERNELS__KERNELS_CONSTRUCTIONS_ID_FKEY);
+    }
+
+    private transient Constructions _constructions;
+
+    public Constructions constructions() {
+        if (_constructions == null)
+            _constructions = new Constructions(this, Keys.KERNELS__KERNELS_CONSTRUCTIONS_ID_FKEY);
+
+        return _constructions;
+    }
+
+    @Override
     public Kernels as(String alias) {
         return new Kernels(DSL.name(alias), this);
     }
@@ -157,11 +178,11 @@ public class Kernels extends TableImpl<KernelsRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row7 type methods
+    // Row8 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<Integer, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal> fieldsRow() {
-        return (Row7) super.fieldsRow();
+    public Row8<Integer, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, Integer> fieldsRow() {
+        return (Row8) super.fieldsRow();
     }
 }
