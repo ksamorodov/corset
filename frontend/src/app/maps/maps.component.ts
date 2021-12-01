@@ -28,6 +28,7 @@ declare interface TableData {
   styleUrls: ['./maps.component.css']
 })
 export class MapsComponent implements OnInit {
+  public showVisualisation = false;
   private ctx: CanvasRenderingContext2D;
   private canvas: HTMLCanvasElement;
   public tableData: TableData;
@@ -46,9 +47,6 @@ export class MapsComponent implements OnInit {
       leftSupport: false,
       rightSupport: false
     };
-    this.canvas = <HTMLCanvasElement> document.getElementById('canvas')
-    this.ctx = this.canvas.getContext('2d');
-    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
   }
 
   addKernel(size: NgModel, crossSectionalArea: NgModel, elasticModulus: NgModel, allowableStress: NgModel, concentratedLoad: NgModel, linearVoltage: NgModel) {
@@ -82,6 +80,14 @@ export class MapsComponent implements OnInit {
   }
 
   visual() {
+    this.showVisualisation = true;
+    this.canvas = <HTMLCanvasElement> document.getElementById('canvas')
+    this.ctx = this.canvas.getContext('2d');
+    this.canvas.width = 1900;
+    this.canvas.height = 600;
+    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+
+
     if (this.canvas.getContext) {
       this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
       let width = 0;
@@ -199,7 +205,6 @@ export class MapsComponent implements OnInit {
               }
             }
           }
-      //  }
       }
     }
   }
