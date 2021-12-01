@@ -47,6 +47,7 @@ export class MapsComponent implements OnInit {
       leftSupport: false,
       rightSupport: false
     };
+    this.canvas = <HTMLCanvasElement> document.getElementById('canvas');
   }
 
   addKernel(size: NgModel, crossSectionalArea: NgModel, elasticModulus: NgModel, allowableStress: NgModel, concentratedLoad: NgModel, linearVoltage: NgModel) {
@@ -81,13 +82,13 @@ export class MapsComponent implements OnInit {
 
   visual() {
     this.showVisualisation = true;
-    this.canvas = <HTMLCanvasElement> document.getElementById('canvas')
+    this.canvas = <HTMLCanvasElement> document.getElementById('canvas');
     this.ctx = this.canvas.getContext('2d');
     this.canvas.width = 1900;
     this.canvas.height = 600;
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-
+    console.log("ok", this.tableData);
     if (this.canvas.getContext) {
       this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
       let width = 0;
@@ -127,7 +128,7 @@ export class MapsComponent implements OnInit {
       var endY = 0;
       var halfOfFirst = 0;
       var halfOfLast = 0;
-
+      console.log("ok1", this.tableData.kernels);
       for (var r = 0; r < this.tableData.kernels.length; r++) {
         width = this.tableData.kernels[r].kernelSize * coefL;
         currentHeight = this.tableData.kernels[r].crossSectionalArea * coefA;
@@ -147,6 +148,7 @@ export class MapsComponent implements OnInit {
         var yF = y - 25;
 
       //  if (this.tableData.kernels.length === 1) {
+
           if (!this.tableData.kernels[r].kernelSize || !this.tableData.kernels[r].crossSectionalArea) {
             this.showNotification('danger', "Ошибка! Длина или площадь стержня равна нулю!");
             return;
@@ -155,18 +157,17 @@ export class MapsComponent implements OnInit {
             let xOfFirst = 50;
             let yOfFirst = 50;
             let halfOfY = 300;
-            console.log(xOfFirst, yOfFirst, widthOfFirst, heightOfFirst)
-            this.ctx.strokeRect(xOfFirst, yOfFirst, widthOfFirst, heightOfFirst);
-
+            //console.log(xOfFirst, yOfFirst, widthOfFirst, heightOfFirst)
+            //this.ctx.strokeRect(xOfFirst, yOfFirst, widthOfFirst, heightOfFirst);
+            X = widthOfFirst;
+            let xQ = startX;
+            let yQ = halfOfY - 20;
+            let widthQ = 15;
+            let heightQ = 10;
+            this.ctx.strokeRect(startX, yOfFirst + heightOfFirst / 2 - currentHeight /2, width, currentHeight);
+            startX += width;
             if (this.tableData.kernels[r].concentratedLoad) {
-              X = widthOfFirst;
-              let xQ = startX;
-              let yQ = halfOfY - 20;
-              let widthQ = 15;
-              let heightQ = 10;
 
-              this.ctx.strokeRect(startX, yOfFirst + heightOfFirst / 2 - currentHeight /2, width, currentHeight);
-              startX += width;
               // startY += currentHeight;
               if (this.tableData.kernels[r].concentratedLoad > 0) {
                 do {
@@ -243,12 +244,15 @@ export class MapsComponent implements OnInit {
   }
 
   reset(name: NgModel) {
+    this.showVisualisation = false;
     this.tableData.kernels = [];
     this.tableData.name = "";
     this.tableData.leftSupport = false;
     this.tableData.rightSupport = false;
     name.reset();
     this.updateHistory();
+    this.ctx.canvas.width = 0;
+    this.ctx.canvas.height = 0;
   }
 
   resetKernel(size: NgModel, crossSectionalArea: NgModel, elasticModulus: NgModel, allowableStress: NgModel, concentratedLoad: NgModel, linearVoltage: NgModel) {
@@ -265,8 +269,12 @@ export class MapsComponent implements OnInit {
     this.http.get<any>("/constructions/").pipe().subscribe((data) => {
           this.tableData.name = data[index].name;
           this.tableData.kernels = data[index].kernels;
+          this.tableData.leftSupport = data[index].leftSupport;
+          this.tableData.rightSupport = data[index].rightSupport;
+          this.visual();
         }
     );
+
   }
 
   deleteItemByName(name) {
@@ -283,6 +291,5 @@ export class MapsComponent implements OnInit {
           })
         }
     );
-
   }
 }

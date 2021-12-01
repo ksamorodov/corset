@@ -98,14 +98,14 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="row">
+                        <div class="row" *ngIf="tableData.kernels.length != 0">
                             <div class="container-fluid">
                                 <div class="form-group col-md-8">
                                     <input type="text" class="form-control" placeholder="Введите название конструкции" name="name" [ngModel]="tableData.name" #name="ngModel">
                                 </div>
                                 <div class="col-md-2">
                                     <div class="checkbox">
-                                        <input id="left" type="checkbox" (click)="setLeftSupport()">
+                                        <input id="left" type="checkbox" (click)="setLeftSupport()" [checked]="tableData.leftSupport">
                                         <label for="left">
                                             опора слева
                                         </label>
@@ -113,7 +113,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="checkbox">
-                                        <input id="right" type="checkbox" (click)="setRightSupport()">
+                                        <input id="right" type="checkbox" (click)="setRightSupport()" [checked]="tableData.rightSupport">
                                         <label for="right">
                                             опора справа
                                         </label>

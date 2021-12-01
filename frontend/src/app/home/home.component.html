@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="header">
-                <h4 class="title">История</h4>
+                <h4 class="title">Просмотр конструкции</h4>
             </div>
             <div class="content table-responsive table-full-width">
                 <table class="table table-hover table-striped" *ngIf="history.length != 0">
@@ -26,6 +26,63 @@
                     </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="header">
+                <div class="header">
+                    <h4 class="title"> {{this.tableData.name}}</h4>
+                </div>
+            </div>
+            <div class="content table-responsive table-full-width">
+                <table class="table table-hover table-striped" *ngIf="tableData.kernels.length != 0">
+                    <thead>
+                    <tr>
+                        <th *ngFor="let cell of tableData.headerRow">{{ cell }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr *ngFor="let row of tableData.kernels; let i = index">
+                        <td>{{i + 1}}</td>
+                        <td>{{row.kernelSize}}</td>
+                        <td>{{row.crossSectionalArea}}</td>
+                        <td>{{row.elasticModulus}}</td>
+                        <td>{{row.allowableStress}}</td>
+                        <td>{{row.concentratedLoad}}</td>
+                        <td>{{row.linearVoltage}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row" *ngIf="tableData.kernels.length != 0">
+                <div class="container-fluid">
+                    <div class="col-md-2">
+                        <div class="checkbox">
+                            <input id="left" type="checkbox" [checked]="tableData.leftSupport" [disabled]="true">
+                            <label for="left">
+                                опора слева
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="checkbox">
+                            <input id="right" type="checkbox" [checked]="tableData.rightSupport" [disabled]="true">
+                            <label for="right">
+                                опора справа
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="checkbox">
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

@@ -24,12 +24,22 @@ export class HomeComponent implements OnInit {
     public tableData: TableData;
 
     ngOnInit(): void {
+        this.tableData = {
+            name: "",
+            headerRow: [ '№', 'Длина стержня', 'Площадь поперечного сечения', 'Модуль упругости', 'Допусткаемое напряжение', 'Сосредоточенная нагрузка', 'Погонное напряжение'],
+            kernels: [],
+            leftSupport: false,
+            rightSupport: false
+        };
+        this.updateHistory();
     }
 
     viewHistoryItem(index) {
         this.http.get<any>("/constructions/").pipe().subscribe((data) => {
                 this.tableData.name = data[index].name;
                 this.tableData.kernels = data[index].kernels;
+                this.tableData.leftSupport = data[index].leftSupport;
+                this.tableData.rightSupport = data[index].rightSupport;
             }
         );
     }
