@@ -56,7 +56,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6 pull-left">
-                                                    <button class="btn btn-info btn-fill pull-left" (click)="resetKernel(size, crossSectionalArea, elasticModulus, allowableStress, concentratedLoad, linearVoltage)">Очистить список</button>
+                                                    <button class="btn btn-info btn-fill pull-left" (click)="resetKernel(size, crossSectionalArea, elasticModulus, allowableStress, concentratedLoad, linearVoltage)">Очистить</button>
                                             </div>
                                             <div class="col-md-6">
 
@@ -73,35 +73,6 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="header">
-                            <div class="row">
-                                <div class="container-fluid">
-                                    <div class="form-group col-md-8">
-                                        <input type="text" class="form-control" placeholder="Введите название конструкции" name="name" [ngModel]="tableData.name" #name="ngModel">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="checkbox">
-                                            <input id="left" type="checkbox" (click)="setLeftSupport()">
-                                            <label for="left">
-                                                опора слева
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="checkbox">
-                                            <input id="right" type="checkbox" (click)="setRightSupport()">
-                                            <label for="right">
-                                                опора справа
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="checkbox">
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
                             <div class="header">
                                 <h4 class="title">Стержни конструкции</h4>
                             </div>
@@ -127,6 +98,35 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="row">
+                            <div class="container-fluid">
+                                <div class="form-group col-md-8">
+                                    <input type="text" class="form-control" placeholder="Введите название конструкции" name="name" [ngModel]="tableData.name" #name="ngModel">
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="checkbox">
+                                        <input id="left" type="checkbox" (click)="setLeftSupport()">
+                                        <label for="left">
+                                            опора слева
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="checkbox">
+                                        <input id="right" type="checkbox" (click)="setRightSupport()">
+                                        <label for="right">
+                                            опора справа
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="checkbox">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
                 <div class="places-buttons">
@@ -141,8 +141,19 @@
                             <button class="btn btn-default btn-block" (click)="reset(name)">Очистить список</button>
                         </div>
                         <div class="col-md-3">
-                            <button class="btn btn-default btn-block" (click)="showNotification('bottom','center')">Визуализировать</button>
+                            <button class="btn btn-default btn-block" (click)="visual()">Визуализировать</button>
                         </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card">
+                        <img id='picFleft' src="../../assets/img/grabL.png" style='display:none;'/>
+                        <img id='picFright' src="../../assets/img/grabR.png"  style='display:none;'/>
+                        <img id='picQleft' src="../../assets/img/left.png"  style='display:none;'/>
+                        <img id='picQright' src="../../assets/img/right.png"  style='display:none;'/>
+                        <canvas id="canvas" width="1900" height="600">
+
+                        </canvas>
                     </div>
                 </div>
                 <div class="col-md-12">
