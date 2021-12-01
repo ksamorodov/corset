@@ -1,0 +1,16 @@
+volumes:
+  pg_project:
+
+services:
+  pg_db:
+    image: postgres:12.7-alpine
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=tmc_docker
+      - POSTGRES_USER=tmc_docker
+      - POSTGRES_DB=tmc_db
+    volumes:
+      - pg_project:/var/lib/postgresql/data
+    ports:
+      - 5990:5432
+

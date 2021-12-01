@@ -4,13 +4,9 @@ spring:
   datasource:
     hikari:
       maximum-pool-size: 10
-    url: jdbc:postgresql://localhost:5432/selectel
-    password: selectel
-    username: selectel
+    url: jdbc:postgresql://localhost:5990/tmc_db
+    password: tmc_docker
+    username: tmc_docker
   liquibase:
     change-log: "classpath:db/master.xml"
     enabled: false
-
-mybatis:
-  configuration:
-    map-underscore-to-camel-case: true

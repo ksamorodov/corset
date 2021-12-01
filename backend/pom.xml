@@ -125,9 +125,9 @@
                 <configuration>
                     <jdbc>  <!-- указываем настройки базы -->
                         <driver>org.postgresql.Driver</driver>
-                        <url>jdbc:postgresql://localhost:5432/selectel</url>
-                        <user>selectel</user>
-                        <password>selectel</password>
+                        <url>jdbc:postgresql://localhost:5990/tmc_db</url>
+                        <user>tmc_docker</user>
+                        <password>tmc_docker</password>
                     </jdbc>
                     <generator>
                         <database>
