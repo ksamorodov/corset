@@ -33,6 +33,11 @@ public class ConstructionsController {
         return ResponseEntity.ok(constuctionsService.getKernelsList());
     }
 
+    @GetMapping("/calculate/{id}")
+    public ResponseEntity<?> calculate(@PathVariable Integer id) {
+        return ResponseEntity.ok(constuctionsService.calculate(id));
+    }
+
     @PutMapping
     public ResponseEntity<?> deleteByName(@RequestBody String name) {
         constuctionsService.deleteByName(name);
