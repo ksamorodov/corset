@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
-import { LegendItem, ChartType } from '../lbd/lbd-chart/lbd-chart.component';
-import * as Chartist from 'chartist';
 import {HttpClient} from "@angular/common/http";
-import {NgModel} from "@angular/forms";
 import {Kernel} from "../maps/maps.component";
 
 declare interface TableData {
@@ -68,7 +64,5 @@ export class HomeComponent implements OnInit {
                 })
             }
         );
-
     }
-
 }

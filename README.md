@@ -15,5 +15,5 @@ default port: 8090
 3. Migration: run maven plugin with dev profile liquibase:update 
 4. Run in terminal: `npm install -g @angular/cli`
 5. Then: `npm install`
-6. And: `ng serve`
+6. And: `ng serve --proxy-config proxy.conf.json`
 7. `Navigate to http://localhost:4200/`

@@ -4,11 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.saprcorset.backend.dto.CalculateResponseDTO;
 import ru.saprcorset.backend.dto.ConstructionsDTO;
 import ru.saprcorset.backend.service.ConstuctionsService;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/constructions")
@@ -35,7 +38,8 @@ public class ConstructionsController {
 
     @GetMapping("/calculate/{id}")
     public ResponseEntity<?> calculate(@PathVariable Integer id) {
-        return ResponseEntity.ok(constuctionsService.calculate(id));
+        CalculateResponseDTO calculate = constuctionsService.calculate(id);
+        return ResponseEntity.ok(new CalculateResponseDTO(0, Collections.EMPTY_LIST, Collections.EMPTY_LIST, Collections.EMPTY_LIST, Collections.EMPTY_LIST, Collections.EMPTY_LIST, Collections.EMPTY_LIST, Collections.EMPTY_LIST, Collections.EMPTY_LIST, Collections.EMPTY_LIST));
     }
 
     @PutMapping
