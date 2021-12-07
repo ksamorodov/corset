@@ -17,25 +17,25 @@
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label>Длина стержня</label>
+                                                    <label>Длина стержня (L)</label>
                                                     <input type="number" min="0" class="form-control" placeholder="Введите число" name="size" [ngModel]="kernel.kernelSize" #size="ngModel">
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label>Площадь поперечного сечения</label>
+                                                    <label>Площадь поперечного сечения (A)</label>
                                                     <input type="number" min="0" class="form-control" placeholder="Введите число" name="crossSectionalArea" [ngModel]="kernel.crossSectionalArea" #crossSectionalArea="ngModel">
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label>Модуль упругости</label>
+                                                    <label>Модуль упругости (E)</label>
                                                     <input type="number" min="0" class="form-control" placeholder="Введите число" name="elasticModulus" [ngModel]="kernel.elasticModulus" #elasticModulus="ngModel">
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label>Допускаемое напряжение</label>
+                                                    <label>Допускаемое напряжение (б)</label>
                                                     <input type="number" min="0" class="form-control" placeholder="Введите число" name="allowableStress" [ngModel]="kernel.allowableStress" #allowableStress="ngModel">
                                                 </div>
                                             </div>
@@ -43,13 +43,13 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label> Сосредоточенная нагрузка</label>
+                                                    <label> Сосредоточенная нагрузка (F)</label>
                                                     <input type="number" class="form-control" placeholder="Номер узла равен номеру стержня" name="concentratedLoad" [ngModel]="kernel.concentratedLoad" #concentratedLoad="ngModel">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label> Погонная нагрузка</label>
+                                                    <label> Погонная нагрузка (q)</label>
                                                     <input type="number" class="form-control" placeholder="(Опционально) введите погонное напряжение" name="linearVoltage" [ngModel]="kernel.linearVoltage" #linearVoltage="ngModel">
                                                 </div>
                                             </div>
