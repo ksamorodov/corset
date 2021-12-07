@@ -126,6 +126,9 @@ export class MapsComponent implements OnInit {
             let picFright = document.getElementById("picFright");
             let picQleft = document.getElementById("picQleft");
             let picQright = document.getElementById("picQright");
+
+            let picPright = document.getElementById("picPright");
+            let picPleft = document.getElementById("picPleft");
             let maxHeight = 0;
 
             //console.log(picFleft);
@@ -173,20 +176,29 @@ export class MapsComponent implements OnInit {
                     X = widthOfFirst;
                     let xQ = startX;
                     let yQ = halfOfY - 20;
-                    let widthQ = 15;
-                    let heightQ = 10;
+                    let widthQ = 30;
+                    let heightQ = 15;
                     this.ctx.strokeRect(startX, yOfFirst + heightOfFirst / 2 - currentHeight / 2, width, currentHeight);
                     startX += width;
+
+                    if (this.tableData.kernels[r].concentratedLoad > 0) {
+                        // @ts-ignore
+                        this.ctx.drawImage(picPright, xQ, yOfFirst + heightOfFirst / 2 - (currentHeight / 3) / 2, width / 2, currentHeight / 3);
+                    } else if (this.tableData.kernels[r].concentratedLoad < 0 && r > 0) {
+                        // @ts-ignore
+                        this.ctx.drawImage(picPleft, xQ - this.tableData.kernels[r - 1].kernelSize * coefL / 2, yOfFirst + heightOfFirst / 2 - (this.tableData.kernels[r - 1].crossSectionalArea * coefA / 3) / 2, this.tableData.kernels[r - 1].kernelSize * coefL / 2, this.tableData.kernels[r - 1].crossSectionalArea * coefA / 3);
+                    }
+
                     if (this.tableData.kernels[r].concentratedLoad) {
 
                         // startY += currentHeight;
-                        if (this.tableData.kernels[r].concentratedLoad > 0) {
+                        if (this.tableData.kernels[r].linearVoltage > 0) {
                             do {
                                 // @ts-ignore
                                 this.ctx.drawImage(picQright, xQ, yOfFirst + heightOfFirst / 2 - heightQ / 2, widthQ, heightQ);
                                 xQ += widthQ;
                             } while (xQ + widthQ <= startX);
-                        } else if (this.tableData.kernels[r].concentratedLoad < 0) {
+                        } else if (this.tableData.kernels[r].linearVoltage < 0) {
                             do {
                                 // @ts-ignore
                                 this.ctx.drawImage(picQleft, xQ, yOfFirst + heightOfFirst / 2 - heightQ / 2, widthQ, heightQ);
