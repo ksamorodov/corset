@@ -36,7 +36,6 @@ export class HomeComponent implements OnInit {
     viewHistoryItem(index) {
         this.calculateData = [];
         this.http.get<any>("/constructions/").pipe().subscribe((data) => {
-            console.log(data[index].id);
                 this.tableData.id = data[index].id;
                 this.tableData.name = data[index].name;
                 this.tableData.kernels = data[index].kernels;
@@ -54,7 +53,6 @@ export class HomeComponent implements OnInit {
 
     calculate(id) {
         this.http.get<any>("/constructions/calculate/" + id).pipe().subscribe((data) => {
-            console.log(data);
             this.calculateData = data.delta;
         });
     }

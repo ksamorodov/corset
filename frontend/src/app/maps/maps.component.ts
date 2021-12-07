@@ -234,7 +234,6 @@ export class MapsComponent implements OnInit {
 
     getLastConstruction() {
         this.http.get<any>("/constructions/").pipe().subscribe((data) => {
-            console.log(data[data.length - 1]);
             this.tableData.kernels = data[data.length - 1].kernels;
             this.tableData.leftSupport = data[data.length - 1].leftSupport;
             this.tableData.rightSupport = data[data.length - 1].rightSupport;
