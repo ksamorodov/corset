@@ -67,6 +67,7 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Sequence<?>> getSequences() {
         return Arrays.asList(
+            Sequences.CONCENTRATED_LOAD_SEQ,
             Sequences.CONSTRUCTIONS_SEQ,
             Sequences.KERNELS_SEQ
         );

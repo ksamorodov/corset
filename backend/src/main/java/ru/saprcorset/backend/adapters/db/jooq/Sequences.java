@@ -16,6 +16,11 @@ import org.jooq.impl.SQLDataType;
 public class Sequences {
 
     /**
+     * The sequence <code>public.concentrated_load_seq</code>
+     */
+    public static final Sequence<Long> CONCENTRATED_LOAD_SEQ = Internal.createSequence("concentrated_load_seq", Public.PUBLIC, SQLDataType.BIGINT.nullable(false), null, null, null, null, false, null);
+
+    /**
      * The sequence <code>public.constructions_seq</code>
      */
     public static final Sequence<Long> CONSTRUCTIONS_SEQ = Internal.createSequence("constructions_seq", Public.PUBLIC, SQLDataType.BIGINT.nullable(false), null, null, null, null, false, null);

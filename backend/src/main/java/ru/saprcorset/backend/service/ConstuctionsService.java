@@ -1,9 +1,6 @@
 package ru.saprcorset.backend.service;
 
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.linear.DecompositionSolver;
-import org.apache.commons.math3.linear.LUDecomposition;
-import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.saprcorset.backend.dto.CalculateResponseDTO;
@@ -12,11 +9,17 @@ import ru.saprcorset.backend.resourse.ConstructionsResource;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ConstuctionsService {
+    private List<Double> L;
+    private List<Double> F;
+    private List<Double> Q;
+    private List<Double> E;
+    private List<Double> A;
 
     @Autowired
     private ConstructionsResource constructionsResource;
@@ -43,7 +46,7 @@ public class ConstuctionsService {
     }
 
     public CalculateResponseDTO calculate(Integer id) {
-        List<List<String>> calc = null;
+        CalculateResponseDTO calc = null;
         Optional<ConstructionsDTO> construction = getById(id);
         if (construction.isPresent()) {
             calc = calc(construction.get());
@@ -70,85 +73,66 @@ public class ConstuctionsService {
 //        return list;
 //    }
 
-    public static double[] bCalculate(List<ConstructionsDTO.KernelDTO> rods, int rodsCount, Object[] forces, boolean leftLimit, boolean rightLimit) {
+    public double[] bCalculate(List<ConstructionsDTO.KernelDTO> rods, int rodsCount, Object[] forces, boolean leftLimit, boolean rightLimit) {
         double[] b = new double[rodsCount + 1];
-        for (int i = 0; i < rodsCount + 1; i++) {
-            ConstructionsDTO.KernelDTO kernel = rods.get(i);
-            Double q = kernel.linearVoltage().doubleValue();
-            Double f = kernel.concentratedLoad().doubleValue();
-            Double l = kernel.kernelSize().doubleValue();
+        for (int i = 0; i < F.size(); i++) {
 
             if (i == 0) {
-                b[i] = f + q * l / 2;
-                b[i + 1] = q * l / 2;
+                b[i] = F.get(0) + Q.get(0) * L.get(0) / 2;
+                b[i + 1] = Q.get(0) * L.get(0) / 2;
             } else if (i == rodsCount) {
-                b[i] = f;
-                b[i] += rods.get(i - 1).linearVoltage().doubleValue() * rods.get(i - 1).kernelSize().doubleValue() / 2;
+                b[i] = F.get(i);
+                b[i] += Q.get(i - 1) * L.get(i - 1) / 2;
             } else {
-                b[i] += f + q * l / 2;
-                b[i + 1] = q * l / 2;
+                b[i] += F.get(i) + Q.get(i) * L.get(i) / 2;
+                b[i + 1] = Q.get(i) * L.get(i) / 2;
             }
         }
 
-        if (leftLimit) {
+        if (leftLimit == true) {
             b[0] = 0.0;
         }
-        if (rightLimit) {
+        if (rightLimit == true) {
             b[rodsCount] = 0.0;
         }
 
         return b;
     }
 
-    public static double[][] ACalculate(List<ConstructionsDTO.KernelDTO> rods, int rodsCount, boolean leftLimit, boolean rightLimit) {
-        double[][] A = new double[rodsCount + 1][rodsCount + 1];
+    public double[][] ACalculate(List<ConstructionsDTO.KernelDTO> rods, int rodsCount, boolean leftLimit, boolean rightLimit) {
+        double[][] AA = new double[rodsCount + 1][rodsCount + 1];
 
         for (int i = 0; i < rodsCount + 1; i++) {
             for (int j = 0; j < rodsCount; j++) {
-                A[i][j] = 0.0;
+                AA[i][j] = 0.0;
             }
         }
 
         for (int i = 0; i < rodsCount + 1; i++) {
-            ConstructionsDTO.KernelDTO kernel = rods.get(i);
-            ConstructionsDTO.KernelDTO kernel1 = null;
-            Double l1 = null;
-            Double e1 = null;
-            Double a1 = null;
-            if (i != 0 ) {
-                kernel1 = rods.get(i - 1);
-                l1 = kernel1.kernelSize().doubleValue();
-                e1 = kernel1.elasticModulus().doubleValue();
-                a1 = kernel1.crossSectionalArea().doubleValue();
-            }
-            Double l = kernel.kernelSize().doubleValue();
-            Double e = kernel.elasticModulus().doubleValue();
-            Double a = kernel.crossSectionalArea().doubleValue();
-
-            Double k = e * a / l;
 
             if (i == rodsCount) {
-                A[rodsCount][rodsCount] = e1 * a1 / l1;
+                AA[rodsCount][rodsCount] = E.get(rodsCount - 1) * A.get(rodsCount - 1) / L.get(rodsCount - 1);
             } else {
-                A[i][i] += k;
-                A[i + 1][i + 1] += k;
-                A[i + 1][i] -= k;
-                A[i][i + 1] -= k;
+                Double k = (E.get(i) * A.get(i)) / L.get(i);
+                AA[i][i] += k;
+                AA[i + 1][i + 1] += k;
+                AA[i + 1][i] -= k;
+                AA[i][i + 1] -= k;
             }
         }
 
 
-        if (leftLimit) {
-            A[0][0] = 1.0;
-            A[0][1] = 0.0;
-            A[1][0] = 0.0;
+        if (leftLimit = true) {
+            AA[0][0] = 1.0;
+            AA[0][1] = 0.0;
+            AA[1][0] = 0.0;
         }
-        if (rightLimit) {
-            A[rodsCount][rodsCount] = 1.0;
-            A[rodsCount][rodsCount - 1] = 0.0;
-            A[rodsCount - 1][rodsCount] = 0.0;
+        if (rightLimit == true) {
+            AA[rodsCount][rodsCount] = 1.0;
+            AA[rodsCount][rodsCount - 1] = 0.0;
+            AA[rodsCount - 1][rodsCount] = 0.0;
         }
-        return A;
+        return AA;
     }
 
     public static double N(ConstructionsDTO.KernelDTO rod, double x, double[] delta, int i) {
@@ -196,45 +180,74 @@ public class ConstuctionsService {
         return list;
     }
 
-    public List<List<String>> calc(ConstructionsDTO constructionsDTO) {
+    public CalculateResponseDTO calc(ConstructionsDTO constructionsDTO) {
+
+
         List<List<String>> res = new ArrayList<>();
+        L = new ArrayList<>();
+        constructionsDTO.kernels().forEach(i -> {
+            if (i.kernelSize() != null)
+                L.add(i.kernelSize().doubleValue());
+        });
+
+        F = new ArrayList<>();
+        constructionsDTO.kernels().forEach(i -> {
+            F.add(i.concentratedLoad().doubleValue());
+        });
+
+        Q = new ArrayList<>();
+        constructionsDTO.kernels().forEach(i -> {
+            if (i.kernelSize() != null)
+                Q.add(i.linearVoltage().doubleValue());
+        });
+
+        E = new ArrayList<>();
+        constructionsDTO.kernels().forEach(i -> {
+            if (i.kernelSize() != null)
+                E.add(i.elasticModulus().doubleValue());
+        });
+
+        A = new ArrayList<>();
+        constructionsDTO.kernels().forEach(i -> {
+            if (i.kernelSize() != null)
+                A.add(i.crossSectionalArea().doubleValue());
+        });
 
         List<String> list = new ArrayList<>();
         boolean leftLimit = constructionsDTO.leftSupport();
         boolean rightLimit = constructionsDTO.rightSupport();
 
         List<ConstructionsDTO.KernelDTO> listOfRods = constructionsDTO.kernels();
+        List<Double> conLoad = new ArrayList<>();
+        constructionsDTO.kernels().forEach(i -> conLoad.add(i.concentratedLoad().doubleValue()));
+
         List<Double> fors = new ArrayList();
         constructionsDTO.kernels().forEach(e -> fors.add(e.concentratedLoad() != null ? e.concentratedLoad().doubleValue() : 0));
         Object[] listOfForces = fors.toArray();
 
-        int rodsCount = constructionsDTO.kernels().size();
-        if (listOfRods.get(listOfRods.size() - 1).kernelSize() == null) {
-            rodsCount = listOfRods.size() - 1;
-        }
-        rodsCount--;
+        int rodsCount = Q.size();
+
         double[] B = bCalculate(listOfRods, rodsCount, listOfForces, leftLimit, rightLimit);
         double A[][] = ACalculate(listOfRods, rodsCount, leftLimit, rightLimit);
 
-
         // List<String> stringList2 = systemOfEquations(A, B, rodsCount, leftLimit, rightLimit);
         RealMatrix a = new Array2DRowRealMatrix(A);
+        RealMatrix inverse = MatrixUtils.inverse(a);
+        //       RealMatrix newA = new LUDecomposition(a).getSolver().getInverse();
         RealMatrix b = new Array2DRowRealMatrix(B);
         //System.out.println("Input a: " + a);
         //System.out.println("Inverse b: " + b);
 
-        DecompositionSolver sol = new LUDecomposition(a).getSolver();
-        RealMatrix newA = sol.getInverse();
-        DecompositionSolver solver = new LUDecomposition(newA).getSolver();
-        RealMatrix x = solver.solve(b);
+        RealMatrix x = inverse.multiply(b);
 
         //  list.add("Inverse x: " + x);
         double[] delta = x.getColumn(0);
-        StringBuilder stringBuilder = new StringBuilder();
+        List<Double> deltaList = new ArrayList<>();
         for (int i = 0; i <= rodsCount; i++) {
-            stringBuilder.append(delta[i]).append(", ");
+            deltaList.add(delta[i]);
         }
-        list.add(stringBuilder.toString());
+        CalculateResponseDTO calculateResponseDTO = new CalculateResponseDTO(1, deltaList, null, null, null, null, null, null, null, null);
+
         List<String> stringList1 = NFind(delta, listOfRods, rodsCount);
         List<String> stringList = UFind(delta, listOfRods, rodsCount);
 
@@ -242,6 +255,6 @@ public class ConstuctionsService {
         // res.add(stringList2);
         res.add(stringList1);
         res.add(stringList);
-        return res;
+        return calculateResponseDTO;
     }
 }

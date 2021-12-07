@@ -189,22 +189,19 @@ export class MapsComponent implements OnInit {
                         this.ctx.drawImage(picPleft, xQ - this.tableData.kernels[r - 1].kernelSize * coefL / 2, yOfFirst + heightOfFirst / 2 - (this.tableData.kernels[r - 1].crossSectionalArea * coefA / 3) / 2, this.tableData.kernels[r - 1].kernelSize * coefL / 2, this.tableData.kernels[r - 1].crossSectionalArea * coefA / 3);
                     }
 
-                    if (this.tableData.kernels[r].concentratedLoad) {
-
-                        // startY += currentHeight;
-                        if (this.tableData.kernels[r].linearVoltage > 0) {
-                            do {
-                                // @ts-ignore
-                                this.ctx.drawImage(picQright, xQ, yOfFirst + heightOfFirst / 2 - heightQ / 2, widthQ, heightQ);
-                                xQ += widthQ;
-                            } while (xQ + widthQ <= startX);
-                        } else if (this.tableData.kernels[r].linearVoltage < 0) {
-                            do {
-                                // @ts-ignore
-                                this.ctx.drawImage(picQleft, xQ, yOfFirst + heightOfFirst / 2 - heightQ / 2, widthQ, heightQ);
-                                xQ += widthQ;
-                            } while (xQ + widthQ <= startX);
-                        }
+                    // startY += currentHeight;
+                    if (this.tableData.kernels[r].linearVoltage > 0) {
+                        do {
+                            // @ts-ignore
+                            this.ctx.drawImage(picQright, xQ, yOfFirst + heightOfFirst / 2 - heightQ / 2, widthQ, heightQ);
+                            xQ += widthQ;
+                        } while (xQ + widthQ <= startX);
+                    } else if (this.tableData.kernels[r].linearVoltage < 0) {
+                        do {
+                            // @ts-ignore
+                            this.ctx.drawImage(picQleft, xQ, yOfFirst + heightOfFirst / 2 - heightQ / 2, widthQ, heightQ);
+                            xQ += widthQ;
+                        } while (xQ + widthQ <= startX);
                     }
 
                     let endOfFirst = widthOfFirst + 30;
