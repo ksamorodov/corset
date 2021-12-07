@@ -55,7 +55,6 @@ export class MapsComponent implements OnInit {
     }
 
     addKernel(size: NgModel, crossSectionalArea: NgModel, elasticModulus: NgModel, allowableStress: NgModel, concentratedLoad: NgModel, linearVoltage: NgModel) {
-        console.log("kern", this.tableData.kernels);
         if (size.viewModel != null && size.viewModel > 0 && crossSectionalArea.viewModel != null && elasticModulus.viewModel != null && allowableStress.viewModel != null && concentratedLoad.viewModel != null && linearVoltage.viewModel != null && (this.tableData.kernels.length == 0 || this.tableData.kernels[this.tableData.kernels.length - 1].kernelSize > 0)) {
             this.tableData.kernels.push(new Kernel(size.viewModel, crossSectionalArea.viewModel,
                 elasticModulus.viewModel,
@@ -217,7 +216,7 @@ export class MapsComponent implements OnInit {
 
     insertConstruction(name: NgModel) {
         this.tableData.name = name.viewModel;
-        if (this.tableData.name != "" && this.tableData.kernels.length != null) {
+        if (this.tableData.name != "" && this.tableData.kernels.length != null && this.tableData.kernels[this.tableData.kernels.length - 1].kernelSize == null) {
             this.http.post<any>("/constructions/", this.tableData).pipe().subscribe((data) => {
                 this.updateHistory();
             });
@@ -227,6 +226,9 @@ export class MapsComponent implements OnInit {
         }
         if (this.tableData.kernels.length == 0) {
             this.showNotification('danger', "В конструкции отсутствуют стержни")
+        }
+        if (this.tableData.kernels.length == 1 || this.tableData.kernels[this.tableData.kernels.length - 1].kernelSize == null) {
+            this.showNotification('danger', "Не введен последний стержень. Заполните только поле сосредоточенная нагрузка")
         }
     }
 
@@ -250,6 +252,7 @@ export class MapsComponent implements OnInit {
         this.updateHistory();
         this.ctx.canvas.width = 0;
         this.ctx.canvas.height = 0;
+        this.disableSave = false;
     }
 
     resetKernel(size: NgModel, crossSectionalArea: NgModel, elasticModulus: NgModel, allowableStress: NgModel, concentratedLoad: NgModel, linearVoltage: NgModel) {
@@ -271,7 +274,7 @@ export class MapsComponent implements OnInit {
                 this.visual();
             }
         );
-
+        this.disableSave = true;
     }
 
     deleteItemByName(name) {
