@@ -1,6 +1,8 @@
 package ru.saprcorset.backend.service;
 
-import org.apache.commons.math3.linear.*;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.MatrixUtils;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.saprcorset.backend.dto.CalculateResponseDTO;
@@ -9,7 +11,6 @@ import ru.saprcorset.backend.resourse.ConstructionsResource;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
