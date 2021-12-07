@@ -1,6 +1,7 @@
 # corset
 Cистема автоматизации прочностных расчётов стержневых систем, испытывающих растяжение-сжатие
-
+![Screenshot 2021-12-07 at 22 59 26](https://user-images.githubusercontent.com/37376734/145097785-6e585ea6-7545-43e2-8823-7189559c9000.png)
+![Screenshot 2021-12-07 at 22 59 37](https://user-images.githubusercontent.com/37376734/145097791-07f27188-80ed-45de-b6f1-9a02e2600d3d.png)
 # Version
 OpenJDK v16
 default port: 8090
