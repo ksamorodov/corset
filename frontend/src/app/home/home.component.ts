@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
     public history: Array<string> = [];
     constructor( private http: HttpClient) { }
     public tableData: TableData;
+    public calculateData = [];
 
     ngOnInit(): void {
         this.tableData = {
@@ -33,6 +34,7 @@ export class HomeComponent implements OnInit {
     }
 
     viewHistoryItem(index) {
+        this.calculateData = [];
         this.http.get<any>("/constructions/").pipe().subscribe((data) => {
             console.log(data[index].id);
                 this.tableData.id = data[index].id;
@@ -52,7 +54,8 @@ export class HomeComponent implements OnInit {
 
     calculate(id) {
         this.http.get<any>("/constructions/calculate/" + id).pipe().subscribe((data) => {
-
+            console.log(data);
+            this.calculateData = data.delta;
         });
     }
 

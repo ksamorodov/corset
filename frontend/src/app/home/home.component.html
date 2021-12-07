@@ -1,36 +1,6 @@
 <div class="main-content">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="header">
-                <h4 class="title">Просмотр конструкции</h4>
-            </div>
-            <div class="content table-responsive table-full-width">
-                <table class="table table-hover table-striped" *ngIf="history.length != 0">
-                    <thead>
-                    <tr>
-                        <th>№</th>
-                        <th>Название</th>
-                    </tr>
-                    </thead>
-                    <tbody>
 
-                    <tr *ngFor="let row of history; let i = index">
-                        <td>{{i + 1}}</td>
-                        <td>{{row}}</td>
-                        <th class="col-md-2">
-                            <button class="btn btn-default btn-block" (click)="viewHistoryItem(i)">Просмотр</button>
-                        </th>
-                        <th class="col-md-2">
-                            <button class="btn btn-default btn-block" (click)="deleteItemByName(row)">Удаление</button>
-                        </th>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-12">
+    <div class="col-md-12" *ngIf="tableData.kernels.length != 0">
         <div class="card">
             <div class="header">
                 <div class="header">
@@ -38,7 +8,7 @@
                 </div>
             </div>
             <div class="content table-responsive table-full-width">
-                <table class="table table-hover table-striped" *ngIf="tableData.kernels.length != 0">
+                <table class="table table-hover table-striped">
                     <thead>
                     <tr>
                         <th *ngFor="let cell of tableData.headerRow">{{ cell }}</th>
@@ -85,7 +55,62 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="col-md-12" *ngIf="calculateData.length != 0">
+        <div class="card">
+            <div class="header">
+                <h4 class="title">Результат</h4>
+            </div>
+            <div class="content table-responsive table-full-width">
+                <table class="table table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th>Delta</th>
+                        <th>Значение</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr *ngFor="let row of calculateData; let i = index">
+                        <td>{{i + 1}}</td>
+                        <td>{{row}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="header">
+                <h4 class="title">Просмотр конструкции</h4>
+            </div>
+            <div class="content table-responsive table-full-width">
+                <table class="table table-hover table-striped" *ngIf="history.length != 0">
+                    <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Название</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr *ngFor="let row of history; let i = index">
+                        <td>{{i + 1}}</td>
+                        <td>{{row}}</td>
+                        <th class="col-md-2">
+                            <button class="btn btn-default btn-block" (click)="viewHistoryItem(i)">Просмотр</button>
+                        </th>
+                        <th class="col-md-2">
+                            <button class="btn btn-default btn-block" (click)="deleteItemByName(row)">Удаление</button>
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

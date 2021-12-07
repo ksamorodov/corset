@@ -39,7 +39,7 @@ public class ConstructionsController {
     @GetMapping("/calculate/{id}")
     public ResponseEntity<?> calculate(@PathVariable Integer id) {
         CalculateResponseDTO calculate = constuctionsService.calculate(id);
-        return ResponseEntity.ok(new CalculateResponseDTO(0, Collections.EMPTY_LIST, Collections.EMPTY_LIST, Collections.EMPTY_LIST, Collections.EMPTY_LIST, Collections.EMPTY_LIST, Collections.EMPTY_LIST, Collections.EMPTY_LIST, Collections.EMPTY_LIST, Collections.EMPTY_LIST));
+        return ResponseEntity.ok(calculate);
     }
 
     @PutMapping

@@ -34,6 +34,7 @@ export class MapsComponent implements OnInit {
     private canvas: HTMLCanvasElement;
     public tableData: TableData;
     public history: Array<string> = [];
+    public disableSave = false;
     public index = "index.jpg";
     public kernel: Kernel = new Kernel(null, null, null, null, null, null);
 
@@ -55,21 +56,24 @@ export class MapsComponent implements OnInit {
 
     addKernel(size: NgModel, crossSectionalArea: NgModel, elasticModulus: NgModel, allowableStress: NgModel, concentratedLoad: NgModel, linearVoltage: NgModel) {
         console.log("kern", this.tableData.kernels);
-        if (size.viewModel != null && size.viewModel > 0 && crossSectionalArea.viewModel != null && elasticModulus.viewModel != null && allowableStress.viewModel != null && (this.tableData.kernels.length == 0 || this.tableData.kernels[this.tableData.kernels.length - 1].kernelSize > 0)) {
+        if (size.viewModel != null && size.viewModel > 0 && crossSectionalArea.viewModel != null && elasticModulus.viewModel != null && allowableStress.viewModel != null && concentratedLoad.viewModel != null && linearVoltage.viewModel != null && (this.tableData.kernels.length == 0 || this.tableData.kernels[this.tableData.kernels.length - 1].kernelSize > 0)) {
             this.tableData.kernels.push(new Kernel(size.viewModel, crossSectionalArea.viewModel,
                 elasticModulus.viewModel,
                 allowableStress.viewModel,
                 concentratedLoad.viewModel != null ? concentratedLoad.viewModel : null,
                 linearVoltage.viewModel != null ? linearVoltage.viewModel : null)
             )
+            this.resetKernel(size, crossSectionalArea, elasticModulus, allowableStress, concentratedLoad, linearVoltage);
             this.showNotification('success', "Cтержень успешно добавлен");
-        } else if (concentratedLoad.viewModel != null && this.tableData.kernels.length > 0 && this.tableData.kernels[this.tableData.kernels.length - 1].kernelSize > 0) {
+        } else if (concentratedLoad.viewModel != null && size.viewModel == null && crossSectionalArea.viewModel == null && elasticModulus.viewModel == null && allowableStress.viewModel == null && linearVoltage.viewModel == null && this.tableData.kernels.length > 0 && this.tableData.kernels[this.tableData.kernels.length - 1].kernelSize > 0) {
             this.tableData.kernels.push(new Kernel(size.viewModel, crossSectionalArea.viewModel,
                 elasticModulus.viewModel,
                 allowableStress.viewModel,
                 concentratedLoad.viewModel != null ? concentratedLoad.viewModel : null,
                 linearVoltage.viewModel != null ? linearVoltage.viewModel : null)
             );
+            this.disableSave = true;
+            this.resetKernel(size, crossSectionalArea, elasticModulus, allowableStress, concentratedLoad, linearVoltage);
             this.showNotification('success', "Последний стержень успешно добавлен");
         } else {
             this.showNotification('danger', "Не верно заполнены <b>обязательные поля</b>.");
@@ -100,7 +104,6 @@ export class MapsComponent implements OnInit {
         this.canvas.height = 600;
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-        console.log("ok", this.tableData);
         if (this.canvas.getContext) {
             this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
             let width = 0;
@@ -131,19 +134,11 @@ export class MapsComponent implements OnInit {
             let picPleft = document.getElementById("picPleft");
             let maxHeight = 0;
 
-            //console.log(picFleft);
-
-            // @ts-ignore
-            // this.ctx.drawImage(picFright, 10, 10);
             let X = 50;
             let Y = 70;
             let startX = X + 20;
-            var startY = Y;
             var endX = 0;
             var endY = 0;
-            var halfOfFirst = 0;
-            var halfOfLast = 0;
-            console.log("ok1", this.tableData.kernels);
             for (var r = 0; r < this.tableData.kernels.length; r++) {
                 width = this.tableData.kernels[r].kernelSize * coefL;
                 currentHeight = this.tableData.kernels[r].crossSectionalArea * coefA;
@@ -152,30 +147,23 @@ export class MapsComponent implements OnInit {
                     maxHeight = currentHeight;
                 }
 
-                var halfOfCurrentHeight = currentHeight / 2;
-                let x = X;
                 endX = X;
                 endY = Y;
-                let y = Y + currentHeight / 2;
 
                 var widthF = 20;
                 var heightF = 70;
-                var yF = y - 25;
 
 
                 if (!this.tableData.kernels[r].kernelSize || !this.tableData.kernels[r].crossSectionalArea) {
-                    this.showNotification('danger', "Ошибка! Длина или площадь стержня равна нулю!");
-                    return;
+                    if (r != this.tableData.kernels.length - 1) {
+                        this.showNotification('danger', "Ошибка! Длина или площадь стержня равна нулю!");
+                        return;
+                    }
                 } else {
-                    // let widthOfFirst = 1400;
                     let xOfFirst = 50;
                     let yOfFirst = 50;
-                    let halfOfY = 300;
-                    //console.log(xOfFirst, yOfFirst, widthOfFirst, heightOfFirst)
-                    //this.ctx.strokeRect(xOfFirst, yOfFirst, widthOfFirst, heightOfFirst);
                     X = widthOfFirst;
                     let xQ = startX;
-                    let yQ = halfOfY - 20;
                     let widthQ = 30;
                     let heightQ = 15;
                     this.ctx.strokeRect(startX, yOfFirst + heightOfFirst / 2 - currentHeight / 2, width, currentHeight);
@@ -189,7 +177,6 @@ export class MapsComponent implements OnInit {
                         this.ctx.drawImage(picPleft, xQ - this.tableData.kernels[r - 1].kernelSize * coefL / 2, yOfFirst + heightOfFirst / 2 - (this.tableData.kernels[r - 1].crossSectionalArea * coefA / 3) / 2, this.tableData.kernels[r - 1].kernelSize * coefL / 2, this.tableData.kernels[r - 1].crossSectionalArea * coefA / 3);
                     }
 
-                    // startY += currentHeight;
                     if (this.tableData.kernels[r].linearVoltage > 0) {
                         do {
                             // @ts-ignore

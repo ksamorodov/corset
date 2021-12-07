@@ -51,7 +51,7 @@ public class ConstuctionsService {
         if (construction.isPresent()) {
             calc = calc(construction.get());
         }
-        return null;
+        return calc;
     }
 
     static int[] Node;
