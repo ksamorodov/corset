@@ -132,16 +132,16 @@
                 <div class="places-buttons">
                     <div class="row">
                         <div class="col-md-3">
-                            <button class="btn btn-default btn-block" (click)="insertConstruction(name)">Сохранить в базу данных</button>
+                            <button class="btn btn-default btn-block" (click)="insertConstruction(name)" [disabled]="tableData.kernels.length == 0">Сохранить в базу данных</button>
                         </div>
 <!--                        <div class="col-md-3">-->
 <!--                            <button class="btn btn-default btn-block" (click)="getLastConstruction()">Загрузить из базы данных</button>-->
 <!--                        </div>-->
                         <div class="col-md-3">
-                            <button class="btn btn-default btn-block" (click)="reset(name)">Очистить список</button>
+                            <button class="btn btn-default btn-block" (click)="reset(name)" [disabled]="tableData.kernels.length == 0">Очистить список</button>
                         </div>
                         <div class="col-md-3">
-                            <button class="btn btn-default btn-block" (click)="visual()">Визуализировать</button>
+                            <button class="btn btn-default btn-block" (click)="visual()" [disabled]="tableData.kernels.length == 0">Визуализировать</button>
                         </div>
                     </div>
                 </div>
