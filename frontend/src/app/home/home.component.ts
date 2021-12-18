@@ -10,6 +10,25 @@ declare interface TableData {
     leftSupport: boolean;
     rightSupport: boolean;
 }
+declare interface Test {
+    name: string;
+    age: number;
+    b: boolean;
+}
+
+declare interface Passport {
+    name: string;
+    series: string;
+    number: number;
+    wanted: boolean;
+}
+
+declare interface Car {
+    speed: number;
+    model: string;
+
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -65,5 +84,12 @@ export class HomeComponent implements OnInit {
                 })
             }
         );
+    }
+
+    name() {
+        var rot = "efvfv";
+        this.http.post<any>("/constructions/vlad", rot).pipe().subscribe((data) => {
+               console.log(data);
+        });
     }
 }

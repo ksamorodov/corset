@@ -2,7 +2,6 @@ package ru.saprcorset.backend.resourse;
 
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
-import org.jooq.Record1;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.saprcorset.backend.adapters.db.jooq.tables.Constructions;
